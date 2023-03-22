@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyeondle <hyeondle@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Linsio <Linsio@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 18:10:10 by hyeondle          #+#    #+#             */
-/*   Updated: 2022/09/30 15:32:19 by hyeondle         ###   ########.fr       */
+/*   Updated: 2023/03/22 16:27:15 by Linsio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,14 +79,12 @@ static char	*put_word(char *str, char set, size_t c, char **tab)
 
 char	**ft_split(char const *s, char c)
 {
-	size_t	i;
 	char	**tab;
 	char	*temp;
 
 	if (!s)
 		return (NULL);
 	temp = (char *)s;
-	i = 0;
 	tab = (char **)malloc(sizeof(char *) * (tab_size(temp, c) + 1));
 	if (!tab)
 		return (NULL);
