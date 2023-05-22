@@ -23,4 +23,4 @@ push_swap		:	84
 ## Circle 3
 philosophers	:	100
 
-minishell     : 
+minishell     : 101
