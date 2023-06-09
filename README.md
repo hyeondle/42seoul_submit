@@ -1,5 +1,5 @@
 # 42seoul_submit
-only submitted subjects
+42_Cursus evaluated subjects
 
 ## Circle 0
 libft			:	125
