@@ -35,7 +35,7 @@ CPP Module    :
 |03|80|
 |04|100|
 
-NetPractice   :
+NetPractice   : 100
 
 MiniRT    :
 
