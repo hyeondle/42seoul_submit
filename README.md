@@ -37,5 +37,5 @@ CPP Module    :
 
 NetPractice   : 100
 
-MiniRT    :
+MiniRT    : 105
 
