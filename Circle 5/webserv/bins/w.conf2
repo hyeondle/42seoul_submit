@@ -1,0 +1,117 @@
+
+server {
+    server_name 0.0.0.0 example.com
+    listen 8083
+
+    default_error_page 500 '/50x.html'
+    default_error_page 502 '/50x.html'
+    default_error_page 503 '/50x.html'
+    default_error_page 504 '/50x.html'
+    default_error_page 404 '/Users/wtt/webserv/YoupiBanane/youpi.bad_extension'
+
+    client_max_body_size 20000000
+
+    location '/where' {
+        allow GET
+        allow POST
+        deny  DELETE
+    }
+
+    location /directory {
+        allow GET
+        alias /Users/wtt/webserv/YoupiBanane
+        autoindex on
+    }
+
+    location / {
+        allow GET
+        deny POST
+        deny  DELETE
+        alias /Users/wtt/webserv/
+        autoindex on
+    }
+
+    location /bins {
+        allow GET
+        deny POST
+        deny  DELETE
+        alias /Users/wtt/webserv/bins
+        autoindex on
+    }
+
+    location '/old' {
+        return 301 /new
+    }
+
+    # 확장자별 cgi 설정
+    cgi_extension .bla /bin/test_cgi
+    
+    location /cgi {
+        cgi_pass /usr/bin/cgi_tester
+    }
+
+#    # 업로드 파일 위치 설정
+#    location /upload {
+#        upload_path /var/www/uploads
+#    }
+
+    # 요청된 디렉터리의 경우 제공할 기본 파일
+    location / {
+        index /Users/wtt/webserv/Makefile
+    }
+
+    # alias에서 파일을 찾음
+    location /kapouet/ {
+        alias /tmp/www/
+    }
+
+}
+
+
+
+server {
+    server_name 0.0.0.0 example2.com
+    listen 8080
+
+    default_error_page 500 '/50x.html'
+    default_error_page 502 '/50x.html'
+    default_error_page 503 '/50x.html'
+    default_error_page 504 '/50x.html'
+
+    client_max_body_size 20000000
+
+    location '/where' {
+        allow GET
+        allow POST
+        deny  DELETE
+    }
+
+    location / {
+        allow GET
+        allow POST
+        deny  DELETE
+        alias /Users/wtt/webserv/obj/
+        upload_path /Users/wtt/webserv/obj/
+        autoindex on
+    }
+
+    location /bins {
+        allow GET
+        deny POST
+        deny  DELETE
+        alias /Users/wtt/webserv/bins
+        autoindex on
+    }
+
+    location '/old' {
+        return 301 /new
+    }
+
+    # 확장자별 cgi 설정
+    cgi_extension .bla /bin/test_cgi
+    
+    location /cgi {
+        cgi_pass /usr/bin/cgi_tester
+    }
+
+}
