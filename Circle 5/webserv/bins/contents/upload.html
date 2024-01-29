@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome to Our Site</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to right, #6dd5ed, #2193b0);
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .navbar {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            background-color: #333;
+            overflow: hidden;
+        }
+
+        .navbar a {
+            float: left;
+            display: block;
+            color: #f2f2f2;
+            text-align: center;
+            padding: 14px 20px;
+            text-decoration: none;
+        }
+
+        .navbar a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+
+        .container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .welcome-text {
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+
+        .upload-section {
+            border-radius: 15px;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        #fileInput, #uploadButton {
+            margin: 10px;
+            padding: 10px;
+            width: 300px;
+        }
+
+        #uploadButton {
+            background-color: #22c1c3;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        #uploadButton:hover {
+            background-color: #2ad4d8;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+<div class="navbar">
+    <a href="/">Home</a>
+    <a href="/upload">Upload List</a>
+</div>
+
+<div class="container">
+    <div class="welcome-text">Welcome to Our File Upload Service!</div>
+    <img src="img/Marvin_robot.jpg" alt="Welcome Image" style="width:500px; height:auto; border-radius:15px;">
+</div>
+
+<div class="upload-section">
+    <input type="file" id="fileInput">
+    <button id="uploadButton">Upload</button>
+</div>
+
+<!-- JavaScript -->
+<script>
+    document.getElementById('uploadButton').addEventListener('click', function() {
+        var inputFile = document.getElementById('fileInput');
+        var file = inputFile.files[0];
+        if (file) {
+            var fileName = file.name;
+            var reader = new FileReader();
+
+            reader.onload = function(e) {
+                var fileContent = e.target.result;
+                sendFileContent(fileContent, fileName);
+            };
+
+            reader.readAsArrayBuffer(file); // 혹은 다른 적절한 메소드 사용
+        } else {
+            alert('Please select a file to upload.');
+        }
+    });
+
+    function sendFileContent(fileContent, fileName) {
+        var url = 'upload/' + fileName; // 실제 URL로 대체
+        fetch(url, {
+            method: 'POST',
+            body: fileContent
+        })
+            .then(response => response.text()) // response 객체의 body를 텍스트로 변환
+            .then(text => alert(text)) // 변환된 텍스트를 alert로 표시
+            .catch(error => alert(error)); // 오류 발생 시 alert로 표시
+    }
+</script>
+</body>
+</html>
