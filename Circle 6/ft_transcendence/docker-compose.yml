@@ -1,0 +1,57 @@
+version: "3"
+
+volumes:
+  db_data: {}
+  frontend: {}
+  backend_media: {}
+
+services:
+  nginx:
+    container_name: nginx
+    build:
+      context: .
+      dockerfile: ./nginx/Dockerfile
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./frontend:/usr/share/nginx/html
+      - ./nginx.crt:/etc/ssl/certs/nginx.crt
+      - ./nginx.key:/etc/ssl/private/nginx.key
+#      - ./nginx/conf.d:/etc/nginx/conf.d
+#      - ./nginx/html:/usr/share/nginx/html
+
+  db:
+    container_name: db
+    image: postgres:16
+    restart: always
+    ports:
+      - "5432:5432"
+    volumes:
+        - db_data:/var/lib/postgresql/data
+    environment:
+        - POSTGRES_DB=${POSTGRES_DB}
+        - POSTGRES_USER=${POSTGRES_USER}
+        - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+        - POSTGRES_INITDB_ARGS=--encoding=UTF-8
+
+  backend:
+    container_name: backend
+    build: ./backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - backend_media:/app/media
+    environment:
+      - DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY}
+      - DJANGO_DB_HOST=${DJANGO_DB_HOST}
+      - DJANGO_DB_PORT=${DJANGO_DB_PORT}
+      - DJANGO_DB_NAME=${DJANGO_DB_NAME}
+      - DJANGO_DB_USER=${DJANGO_DB_USER}
+      - DJANGO_DB_PASSWORD=${DJANGO_DB_PASSWORD}
+      - FT_UID_KEY=${FT_UID_KEY}
+      - FT_SECRET_KEY=${FT_SECRET_KEY}
+    depends_on:
+      - db
